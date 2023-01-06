@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1672583101 source:/home/julb/Documents/GITs/Matrix/main.cpp
+1672999332 source:/home/julb/Documents/GITs/Matrix/main.cpp
 	<iostream>
 	"screen.h"
 	<vector>
@@ -10,10 +10,18 @@
 	<locale.h>
 	<ncurses.h>
 
-1672510375 source:/home/julb/Documents/GITs/Matrix/screen.cpp
-	<stdlib.h>
-	"screen.h"
-	<math.h>
+1673009904 source:/home/julb/Documents/GITs/Matrix/screen.cpp
 	<string>
 	<iostream>
+	"screen.h"
+	"wormfamily.h"
+
+1673010259 source:/home/julb/Documents/GITs/Matrix/wormfamily.cpp
+	"wormfamily.h"
+
+1673010054 /home/julb/Documents/GITs/Matrix/wormfamily.h
+	<vector>
+	<stdlib.h>
+	<math.h>
+	"screen.h"
 

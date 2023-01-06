@@ -1,0 +1,54 @@
+#ifndef WORMFAMILY_H
+#define WORMFAMILY_H
+#include <vector>
+#include <stdlib.h>
+#include <math.h>
+
+#include "screen.h"
+
+class Worm {
+	public:
+		std::vector<cchar_t>	charArray;
+		Worm(Screen* newScreen)	: screen(newScreen) {}
+		void test();
+		void initialize(Coord maxCoordinates);
+		void process(Screen* screen);
+
+	private:
+		int 	xPos, yPos, maxYPos, lastYPos, length, speed;
+		Coord	knownMaxCoord;
+		bool	initialized=0;
+		int		timesInited=0;
+		int		charArrayStart=0;
+		Screen*	screen;
+};
+
+class WormFamily {
+	public:
+		WormFamily(Screen* screen, float wormRatio);
+		virtual ~WormFamily();
+		void processWorms() {
+			for (int i=0; i<m_worms; i++)
+				m_wormArray[i].process(screen);
+		}
+
+		void initializeWorms() {
+			m_lastScreenSize=screen->getMax();
+			m_worms=round(m_lastScreenSize.x/wormRatio);
+			m_wormArray.clear();
+			for (int i=0; i<m_worms; i++)
+				m_wormArray.push_back(Worm(screen));
+		}
+
+	protected:
+
+	private:
+		Screen*				screen;
+		float				wormRatio;
+		std::vector<Worm>	m_wormArray;
+		Coord				m_lastScreenSize;
+		int 				m_wormTimer=0;
+		int					m_worms=0;
+};
+
+#endif // WORMFAMILY_H

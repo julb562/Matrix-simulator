@@ -40,6 +40,8 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="screen.cpp" />
 		<Unit filename="screen.h" />
+		<Unit filename="wormfamily.cpp" />
+		<Unit filename="wormfamily.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

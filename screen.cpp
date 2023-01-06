@@ -1,12 +1,7 @@
-#include <stdlib.h>
-#include "screen.h"
-#include <math.h>
 #include <string>
 #include <iostream>
-
-#define matrixWormsAmmount 100
-#define CHAR_RANGE rand() % 60 + 390
-//#define CHAR_RANGE 'D'
+#include "screen.h"
+#include "wormfamily.h"
 
 Screen::Screen() {
 	setlocale(LC_ALL, "");
@@ -40,35 +35,16 @@ Coord	Screen::getMax() {
 //bool Screen::processMatrix(WINDOW* wnd) {
 bool Screen::processMatrix() {
 	typedef void(*functionPointer)();
-	struct Worm {
-		int 	length, xPos;
-		float 	yPos, speed;
-		bool	initialized=0;
-		int		timesInited=0;
-		void initialize(int maxX, int maxY) {
-			length=		rand() % maxY + 8;
-			xPos=		rand() % maxX;
-			yPos=		0;
-			speed= 	((rand() % 90 +10) / static_cast<float>(100));
-			initialized=1;
-			timesInited++;
-		}
-	};
-	Worm	worm[matrixWormsAmmount];
-	int 	wormTimer=0;
-	Coord	lastCoord=getMax();
-	Coord	newCoord;
-	cchar_t outputCChar;
-	wchar_t outputWChar=L'ä';
 
 	std::string	debug="Debug thing";
-	int 	wormsToDisplay=round(maxX/0.8f);
-	if (wormsToDisplay>matrixWormsAmmount)
-		wormsToDisplay=matrixWormsAmmount;
+	const float wormRatio=0.8f;
+	WormFamily family(this, wormRatio);
+	family.initializeWorms();
+
 	while (!m_Matrix_StopSignal) {
+		family.processWorms();
 
-		newCoord=getMax();
-
+		/*
 		if (lastCoord != newCoord) {
 			for (int i=0; i<matrixWormsAmmount; i++)
 				worm[i].initialized=0;
@@ -103,6 +79,7 @@ bool Screen::processMatrix() {
 		mvaddstr(7,2,debug.c_str());
 		debug="Initialized: "+std::to_string(worm[1].timesInited);
 		mvaddstr(8,2,debug.c_str());
+		*/
 		move(0,0);
 		refresh();
 		std::this_thread::sleep_for(std::chrono::milliseconds(m_MatrixProcessWaitTime));
