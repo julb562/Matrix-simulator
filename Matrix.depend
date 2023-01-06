@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1672583101 source:/home/julb/Documents/GITs/Matrix/main.cpp
+	<iostream>
+	"screen.h"
+	<vector>
+
+1672507887 /home/julb/Documents/GITs/Matrix/screen.h
+	<thread>
+	<chrono>
+	<locale.h>
+	<ncurses.h>
+
+1672510375 source:/home/julb/Documents/GITs/Matrix/screen.cpp
+	<stdlib.h>
+	"screen.h"
+	<math.h>
+	<string>
+	<iostream>
+

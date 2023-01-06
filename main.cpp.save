@@ -1,0 +1,276 @@
+#include <iostream>
+#include "screen.h"
+#include <vector>
+
+void fillScreen(int x, int y, Screen &screen) {
+	for (int xPos=0; xPos<=x; xPos++) {
+		for (int yPos=0; yPos<=y; yPos++) {
+			screen.pushChar(xPos, yPos, '.');
+		}
+	}
+}
+
+class SolutionActual {
+  public:
+    long long goodSubarrays(int n,int x, std::vector<int>arr) {
+        int goodArrays=0;
+        int thisSubArrayThrees=0;
+        std::vector<int> numbers;
+        std::vector<int> occurrences;
+        bool found;
+        for (int start=0; start<n-1; start++) {
+            for (int end=start+1; end<n; end++) {
+                thisSubArrayThrees=0;
+                numbers.clear();
+                occurrences.clear();
+                for (int i=start; i<=end; i++) {
+                    found=0;
+					for (int k=0; k<numbers.size(); k++) {
+						if (arr[i]!=numbers[k]) continue;
+						found=1;
+						occurrences[k]++;
+					}
+					if (!found) {
+						occurrences.push_back(1);
+						numbers.push_back(arr[i]);
+					}
+				}
+
+                for (int i=0; i<numbers.size(); i++)
+                    if (occurrences[i]>2) thisSubArrayThrees++;
+                if (thisSubArrayThrees==x)
+                    goodArrays++;
+            }
+        }
+        return goodArrays;
+    }
+
+};
+
+
+class Solution {
+  public:
+    long long goodSubarrays(int n,int x, std::vector<int>arr) {
+        int goodArrays=0;
+        int thisSubArrayThrees=0;
+        std::vector<int> numbers;
+        std::vector<int> occurrences;
+
+        for (int start=0; start<n-1; start++) {
+            for (int end=start+1; end<n; end++) {
+                thisSubArrayThrees=0;
+                numbers.clear();
+                occurrences.clear();
+                bool found;
+                for (int i=start; i<=end; i++) {
+					found=0;
+					for (int k=0; k<numbers.size(); k++) {
+						if (arr[i]!=numbers[k]) continue;
+						found=1;
+						occurrences[k]++;
+						//if (occurrences[k]>2) std::cout << "+";
+					}
+					if (!found) {
+						occurrences.push_back(1);
+						numbers.push_back(arr[i]);
+					}
+				}
+
+                for (int i=0; i<numbers.size(); i++)
+                    if (occurrences[i]>2) thisSubArrayThrees++;
+                if (thisSubArrayThrees==x)
+                    goodArrays++;
+				if (thisSubArrayThrees) {
+					std::cout << "Sub array " << start << " to " << end << " had " << thisSubArrayThrees << " threes and number list is " << occurrences.size() << std::endl;
+					        std::cout << "Numbers: " ;
+							for (const int& i : numbers) {
+								std::cout << i << "  ";
+							}
+							std::cout << std::endl;
+					        std::cout << "Occurs: " ;
+							for (const int& i : occurrences) {
+								std::cout << i << "  ";
+							}
+							std::cout << std::endl;
+
+				}
+            }
+        }
+        std::cout << "Array " ;
+        for (const int& i : arr) {
+			std::cout << i << "  ";
+		}
+		std::cout << std::endl;
+        return goodArrays;
+    }
+};
+
+class Solutionb {
+  public:
+    void flipRow(int nFlip, int n, int m, std::vector<std::vector<int>>&grid) {
+        for (int i=0; i<m; i++) {
+            if (grid[nFlip][i]) {
+                grid[nFlip][i]=0;
+                continue;
+            }
+            grid[nFlip][i]=1;
+        }
+    }
+
+    void flipCol(int mFlip, int n, int m, std::vector<std::vector<int>>&grid) {
+        for (int i=0; i<n; i++) {
+            if (grid[i][mFlip]) {
+                grid[i][mFlip]=0;
+                continue;
+            }
+            grid[i][mFlip]=1;
+        }
+    }
+
+    int evalCols(int mEvaluated, int n, int m, std::vector<std::vector<int>>&grid) {
+        int value=0;
+        for (int i=0; i<n; i++) {
+            if (grid[i][mEvaluated])
+                value++;
+			//std::cout << " " << grid[i][mEvaluated];
+		}
+		//std::cout << "\n";
+        if (value*2>n) return 1;
+        if (value*2<n) return -1;
+        return 0;
+    }
+
+    int evalRows(int nEvaluated, int n, int m, std::vector<std::vector<int>>&grid) {
+        int value=0;
+        for (int i=0; i<m; i++) {
+            if (grid[nEvaluated][i])
+                value++;
+			//std::cout << " " << grid[nEvaluated][i];
+		}
+		//std::cout << " => v:"  << (value*2)<< " > " << (n) <<"  \n";
+        if (value*2>m) return 1;
+        if (value*2<m) return -1;
+        return 0;
+    }
+
+    int calcAll(int n, int m, std::vector<std::vector<int>>&grid) {
+        int value=0;
+        for (int i=0; i<n; i++) {
+			for (int k=0; k<m; k++) {
+				if (grid[i][k])  value++;
+				std::cout << " " << grid[i][k];
+			}
+			std::cout << "\n";
+		}
+        return value;
+    }
+
+    int optimalMoves(int n,int m, std::vector<std::vector<int>>grid) {
+		//for (int k=0; k<n; k++) {
+		for (int m1=0; m1<m; m1++) {
+			if (evalCols(m1, n, m, grid)<1) {
+				flipCol(m1, n, m, grid);
+			}
+			for (int n1=0; n1<n; n1++) {
+				if (evalRows(n1, n, m, grid)<1) {
+					flipRow(n1, n, m, grid);
+				}
+			}
+		}
+		for (int n1=0; n1<n; n1++) {
+			if (evalRows(n1, n, m, grid)<1) {
+				flipRow(n1, n, m, grid);
+			}
+		    for (int m1=0; m1<m; m1++) {
+			    if (evalCols(m1, n, m, grid)<1) {
+				    flipCol(m1, n, m, grid);
+			    }
+			}
+		}
+		calcAll(n, m, grid);;
+		std::cout << "\n";
+		//}
+		return calcAll(n, m, grid);;
+    }
+
+};
+
+class SolutionC {
+  public:
+    std::string solve(int N, std::string S) {
+        std::vector<std::string> subStrings;
+        std::vector<int> subStringsCount;
+        std::string currentSubString;
+        int	matchFound=-1;
+        int bestMatch=0;
+        int bestCount=0;
+
+        subStrings.push_back(S);
+		subStringsCount.push_back(1);
+
+        for (size_t sizeIter=N-1; sizeIter>0; sizeIter--) {
+			for (size_t posIter=0; posIter<=N-sizeIter; posIter++) {
+				currentSubString=S.substr(posIter, sizeIter);
+				matchFound=-1;
+				for (int i=0; i<subStrings.size(); i++) {
+					if (subStrings[i] == currentSubString) {
+						subStringsCount[i]++;
+						matchFound=i;
+						break;
+					}
+				}
+				if (matchFound<0) {
+					subStrings.push_back(currentSubString);
+					subStringsCount.push_back(1);
+				}
+			}
+		}
+
+		bestMatch=0;
+		for (int i=0; i<subStrings.size(); i++) {
+			if (bestCount>subStringsCount[i] || ( bestCount==subStringsCount[i] && subStrings[i].size() == subStrings[bestMatch].size()))
+				continue;
+			bestCount=subStringsCount[i];
+			bestMatch=i;
+		}
+
+        return subStrings[bestMatch];
+    }
+};
+
+int main()
+{
+	Screen mainScreen;
+	//fillScreen(40,20,mainScreen);
+	char input = ' ';
+	chtype		out='H';
+	chtype		in='_';
+	//Solutionb a;
+	//std::cout << a.optimalMoves(5,2,{{0,0},{0,0},{1,0},{1,1},{0,0}}) << std::endl;
+
+	SolutionC b;
+	std::string	inputC = "gfgg";
+	std::string result=b.solve(inputC.size(), inputC);
+	std::cout << "Res: '" << result << "'\n";
+	inputC = "dwlq"; // correct d
+	result=b.solve(inputC.size(), inputC);
+	std::cout << "Res: '" << result << "'\n";
+	inputC = "we"; // correct d
+	result=b.solve(inputC.size(), inputC);
+	std::cout << "Res: '" << result << "'\n";
+	/*
+	mainScreen.runMatrix();
+
+	while (input != 'q') {
+
+		input = getch();
+		mainScreen.pushChar(8,3, input);
+		in = mvinch(3, 8);
+		mainScreen.pushChar(8,4, in);
+
+	}
+	mainScreen.stopMatrix(stdscr);
+	*/
+    //std::cout << "Hello world!\n";
+    return 0;
+}
