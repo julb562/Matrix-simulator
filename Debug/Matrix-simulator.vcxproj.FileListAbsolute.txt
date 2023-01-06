@@ -1,0 +1,3 @@
+C:\Users\juliu\source\repos\Matrix-simulator\Debug\Matrix-simulator.vcxproj.CopyComplete
+C:\Users\juliu\source\repos\Matrix-simulator\Debug\Matrix-simulator.exe
+C:\Users\juliu\source\repos\Matrix-simulator\Debug\pdcurses.dll

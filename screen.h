@@ -3,12 +3,18 @@
 #include <thread>
 #include <chrono>
 #include <locale.h>
-#include <ncurses.h>
+
+#ifdef _WIN32
+	#include <curses.h>
+#endif
+#ifdef linux
+	#include <ncurses.h>
+#endif
 
 
 struct Coord {
-	int	x;
-	int y;
+	unsigned int x;
+	unsigned int y;
 
 	bool operator==(const Coord &other) {
 		if ( this->x == other.x && this->y == other.y)
@@ -29,6 +35,7 @@ class Screen
 		Coord getMax();
 		WINDOW 			*wnd;
 		void    pushChar(int x, int y, chtype output);
+		//void    pushChar(int x, int y, chtype output, unsigned int color) { pushChar(x, y, output); }
 		bool	runMatrix(WINDOW* wnd);
 		void	stopMatrix(WINDOW* wnd);
 		void	runMatrix() { runMatrix( stdscr); };
@@ -38,7 +45,6 @@ class Screen
 	private:
 		unsigned int	maxX, maxY;
 		bool			processMatrix();
-		//bool			processMatrix(WINDOW* wnd);
 		wchar_t*		m_data;
 		bool			m_Matrix_Processing=0;
 		bool			m_Matrix_StopSignal=0;

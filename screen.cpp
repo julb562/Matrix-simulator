@@ -46,6 +46,7 @@ bool Screen::processMatrix() {
 		refresh();
 		std::this_thread::sleep_for(std::chrono::milliseconds(m_MatrixProcessWaitTime));
 	}
+	return 1;
 }
 
 bool Screen::runMatrix(WINDOW* wnd) {

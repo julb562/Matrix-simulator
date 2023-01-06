@@ -17,7 +17,7 @@ void WormFamily::processWorms() {
 
 void WormFamily::initializeWorms() {
 	m_lastScreenSize=screen->getMax();
-	m_worms=round(m_lastScreenSize.x/wormRatio);
+	m_worms=(int)round(m_lastScreenSize.x/wormRatio);
 	m_wormArray.clear();
 	for (int i=0; i<m_worms; i++)
 		m_wormArray.push_back(Worm(screen));
@@ -35,13 +35,11 @@ void Worm::initialize(Coord maxCoordinates) {
 	initialized=1;
 	timesInitialized++;
 	charArray.clear();
-	cchar_t tempCChar;
 	knownMaxCoord = maxCoordinates;
-	wchar_t tempWChar;
+	chtype tempWChar;
 	for (int i=0; i<length; i++) {
 		tempWChar=CHAR_RANGE;
-		setcchar(&tempCChar,&tempWChar,0,2,NULL );
-		charArray.push_back(tempCChar);
+		charArray.push_back(tempWChar);
 	}
 }
 
@@ -50,36 +48,39 @@ void Worm::process(Screen* screen) {
 		initialize(screen->getMax());
 
 	yPos+=speed;
-	int yDrawPos=round(yPos/100);
+	int yDrawPos=(int)round(yPos/100);
 	if ( yDrawPos > maxYPos)
 		initialize(knownMaxCoord);
 
 	// Draw main part of this worm
+
+	if (has_colors())
+		attron(COLOR_PAIR(2));
+
 	int charPos=0;
 	for ( int i=yDrawPos-length; i<yDrawPos; i++ ) {
-		if (i<0 || i>knownMaxCoord.y)
+		if (i<0 || i>(int)knownMaxCoord.y)
 			continue;
 		if (rand() % 10 >8)
 			attron(A_BOLD);
 		else
 			attroff(A_BOLD);
 		charPos=i % length;
-		mvadd_wch( i, xPos, &charArray[charPos]);
+		screen->pushChar(xPos, i, charArray[charPos]);
 	}
-	cchar_t tempCChar;
-	wchar_t tempWChar=CHAR_RANGE;
 
 	// Draw the head of this worm
-	if (yDrawPos>0 && yDrawPos<=knownMaxCoord.y) {
-		setcchar(&tempCChar,&tempWChar,0,1,NULL );
-		mvadd_wch( yPos/100, xPos, &tempCChar);
+
+	if (has_colors())
+		attron(COLOR_PAIR(1));
+
+	if (yDrawPos>0 && yDrawPos<=(int)knownMaxCoord.y) {
+		screen->pushChar(xPos, yDrawPos, (chtype)CHAR_RANGE);
 	}
 
 	// Clear the end of this worm
-	if (yDrawPos-length>=0 && yDrawPos-length<=knownMaxCoord.y) {
-		tempWChar=' ';
-		setcchar(&tempCChar,&tempWChar,0,1,NULL );
-		mvadd_wch( yDrawPos-length, xPos, &tempCChar);
+	if (yDrawPos-length>=0 && yDrawPos-length<=(int)knownMaxCoord.y) {
+		screen->pushChar(xPos, yDrawPos-length, ' ');
 	}
 }
 

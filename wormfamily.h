@@ -9,7 +9,7 @@
 
 class Worm {
 	public:
-		std::vector<cchar_t>	charArray;
+		std::vector<chtype>	charArray;
 		Worm(Screen* newScreen);
 		void test();
 		void initialize(Coord maxCoordinates);
