@@ -3,7 +3,6 @@
 WormFamily::WormFamily(Screen* newScreen, float newWormRatio)
 	:	screen(newScreen), wormRatio(newWormRatio)
 {
-	//int 	wormsToDisplay=round(maxX/0.8f);
 }
 
 WormFamily::~WormFamily()
@@ -34,7 +33,7 @@ void Worm::initialize(Coord maxCoordinates) {
 	maxYPos=		maxCoordinates.y+length+1;
 	speed= 	((rand() % 90 +10));
 	initialized=1;
-	timesInited++;
+	timesInitialized++;
 	charArray.clear();
 	cchar_t tempCChar;
 	knownMaxCoord = maxCoordinates;

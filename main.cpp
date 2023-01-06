@@ -14,7 +14,6 @@ void fillScreen(int x, int y, Screen &screen) {
 int main()
 {
 	Screen mainScreen;
-	//fillScreen(100,100,mainScreen);
 	char input = ' ';
 	chtype		out='H';
 	chtype		in='_';

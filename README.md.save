@@ -3,5 +3,4 @@
 This important program runs Matrix-effect simulation in console. It's intended to be cross platform eventually.
 
 Version 0.01
-	Compiles and runs on Linux console. Doesn't handle screen size changes correctly.
-
+	Compiles and runs on Linux console. Doesn't

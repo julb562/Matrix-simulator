@@ -19,8 +19,7 @@ class Worm {
 		int 	xPos, yPos, maxYPos, lastYPos, length, speed;
 		Coord	knownMaxCoord;
 		bool	initialized=0;
-		int		timesInited=0;
-		int		charArrayStart=0;
+		int		timesInitialized=0;
 		Screen*	screen;
 };
 
@@ -38,7 +37,6 @@ class WormFamily {
 		float				wormRatio;
 		std::vector<Worm>	m_wormArray;
 		Coord				m_lastScreenSize;
-		int 				m_wormTimer=0;
 		int					m_worms=0;
 };
 

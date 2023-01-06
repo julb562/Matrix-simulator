@@ -32,7 +32,6 @@ Coord	Screen::getMax() {
 	return {maxX, maxY};
 }
 
-//bool Screen::processMatrix(WINDOW* wnd) {
 bool Screen::processMatrix() {
 	typedef void(*functionPointer)();
 
@@ -43,43 +42,6 @@ bool Screen::processMatrix() {
 
 	while (!m_Matrix_StopSignal) {
 		family.processWorms();
-
-		/*
-		if (lastCoord != newCoord) {
-			for (int i=0; i<matrixWormsAmmount; i++)
-				worm[i].initialized=0;
-			wormsToDisplay=round(maxX/0.8f);
-			if (wormsToDisplay>matrixWormsAmmount)
-				wormsToDisplay=matrixWormsAmmount;
-			lastCoord=newCoord;
-			clear();
-		}
-
-		for (int i=0; i<wormsToDisplay; i++) {
-			if (!worm[i].initialized)
-				worm[i].initialize(maxX,maxY);
-			attroff(A_BOLD);
-			outputWChar=CHAR_RANGE;
-			setcchar(&outputCChar, &outputWChar, 0, 2, NULL);
-			mvadd_wch( round(worm[i].yPos), worm[i].xPos, &outputCChar);
-			worm[i].yPos+=worm[i].speed;
-			if (worm[i].yPos>maxY+worm[i].length+1) {
-				worm[i].initialized=0;
-			}
-			attron(A_BOLD);
-			outputWChar=CHAR_RANGE;
-			setcchar(&outputCChar, &outputWChar, 0, 2, NULL);
-			mvadd_wch( round(worm[i].yPos), worm[i].xPos, &outputCChar);
-			mvaddch( round(worm[i].yPos)-worm[i].length, worm[i].xPos, ' ');
-		}
-
-		wormTimer++;
-		//m_Matrix_StopSignal=1;
-		debug="maxY: "+std::to_string(maxY);
-		mvaddstr(7,2,debug.c_str());
-		debug="Initialized: "+std::to_string(worm[1].timesInited);
-		mvaddstr(8,2,debug.c_str());
-		*/
 		move(0,0);
 		refresh();
 		std::this_thread::sleep_for(std::chrono::milliseconds(m_MatrixProcessWaitTime));

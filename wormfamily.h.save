@@ -3,13 +3,14 @@
 #include <vector>
 #include <stdlib.h>
 #include <math.h>
-
 #include "screen.h"
+
+#define CHAR_RANGE rand() % 60 + 390
 
 class Worm {
 	public:
 		std::vector<cchar_t>	charArray;
-		Worm(Screen* newScreen)	: screen(newScreen) {}
+		Worm(Screen* newScreen);
 		void test();
 		void initialize(Coord maxCoordinates);
 		void process(Screen* screen);
@@ -19,7 +20,6 @@ class Worm {
 		Coord	knownMaxCoord;
 		bool	initialized=0;
 		int		timesInited=0;
-		int		charArrayStart=0;
 		Screen*	screen;
 };
 
@@ -27,18 +27,8 @@ class WormFamily {
 	public:
 		WormFamily(Screen* screen, float wormRatio);
 		virtual ~WormFamily();
-		void processWorms() {
-			for (int i=0; i<m_worms; i++)
-				m_wormArray[i].process(screen);
-		}
-
-		void initializeWorms() {
-			m_lastScreenSize=screen->getMax();
-			m_worms=round(m_lastScreenSize.x/wormRatio);
-			m_wormArray.clear();
-			for (int i=0; i<m_worms; i++)
-				m_wormArray.push_back(Worm(screen));
-		}
+		void processWorms();
+		void initializeWorms();
 
 	protected:
 
