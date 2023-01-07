@@ -26,9 +26,10 @@ void Screen::pushChar(int x, int y, chtype output) {
 	#ifdef _WIN32
 		mvaddch(y,x,output);
 	#else
-		addwch( y,x,390);//output);
-		//move(y, x);
-		//printw("%lc", output);
+	    cchar_t tempCChar;
+		wchar_t tempWChar=(wchar_t)output;
+		setcchar(&tempCChar,&tempWChar,0,0,NULL );
+		mvadd_wch( y, x, &tempCChar);
 	#endif
 }
 
@@ -39,9 +40,6 @@ Coord	Screen::getMax() {
 }
 
 bool Screen::processMatrix() {
-	typedef void(*functionPointer)();
-
-	std::string	debug="Debug thing";
 	const float wormRatio=0.8f;
 	WormFamily family(this, wormRatio);
 	family.initializeWorms();

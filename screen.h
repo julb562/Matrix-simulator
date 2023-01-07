@@ -35,7 +35,6 @@ class Screen
 		Coord getMax();
 		WINDOW 			*wnd;
 		void    pushChar(int x, int y, chtype output);
-		//void    pushChar(int x, int y, chtype output, unsigned int color) { pushChar(x, y, output); }
 		bool	runMatrix(WINDOW* wnd);
 		void	stopMatrix(WINDOW* wnd);
 		void	runMatrix() { runMatrix( stdscr); };
