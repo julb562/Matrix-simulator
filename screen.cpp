@@ -23,7 +23,13 @@ Screen::~Screen() {
 
 
 void Screen::pushChar(int x, int y, chtype output) {
-	mvaddch(y,x,output);
+	#ifdef _WIN32
+		mvaddch(y,x,output);
+	#else
+		addwch( y,x,390);//output);
+		//move(y, x);
+		//printw("%lc", output);
+	#endif
 }
 
 

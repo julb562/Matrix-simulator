@@ -2,12 +2,12 @@
 #define SCREEN_H
 #include <thread>
 #include <chrono>
+#include <wchar.h>
 #include <locale.h>
 
 #ifdef _WIN32
 	#include <curses.h>
-#endif
-#ifdef linux
+#else
 	#include <ncurses.h>
 #endif
 

@@ -11,11 +11,14 @@ WormFamily::~WormFamily()
 }
 
 void WormFamily::processWorms() {
+	if (m_lastScreenSize!=screen->getMax())
+		initializeWorms();
 	for (int i=0; i<m_worms; i++)
 		m_wormArray[i].process(screen);
 }
 
 void WormFamily::initializeWorms() {
+	clear();
 	m_lastScreenSize=screen->getMax();
 	m_worms=(int)round(m_lastScreenSize.x/wormRatio);
 	m_wormArray.clear();
@@ -59,7 +62,7 @@ void Worm::process(Screen* screen) {
 
 	int charPos=0;
 	for ( int i=yDrawPos-length; i<yDrawPos; i++ ) {
-		if (i<0 || i>(int)knownMaxCoord.y)
+		if (i<0 || i>=(int)knownMaxCoord.y)
 			continue;
 		if (rand() % 10 >8)
 			attron(A_BOLD);
@@ -74,7 +77,7 @@ void Worm::process(Screen* screen) {
 	if (has_colors())
 		attron(COLOR_PAIR(1));
 
-	if (yDrawPos>0 && yDrawPos<=(int)knownMaxCoord.y) {
+	if (yDrawPos>0 && yDrawPos<(int)knownMaxCoord.y) {
 		screen->pushChar(xPos, yDrawPos, (chtype)CHAR_RANGE);
 	}
 
