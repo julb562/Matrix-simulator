@@ -52,8 +52,10 @@ void Worm::process(Screen* screen) {
 
 	yPos+=speed;
 	int yDrawPos=(int)round(yPos/100);
-	if ( yDrawPos > maxYPos)
+	if ( yDrawPos > maxYPos) {
 		initialize(knownMaxCoord);
+		yDrawPos=(int)round(yPos/100);
+	}
 
 	// Draw main part of this worm
 
